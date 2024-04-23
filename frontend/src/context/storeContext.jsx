@@ -23,9 +23,27 @@ const ContextProvider = ({ children }) => {
     }
   }
 
+  function cartTotal() {
+    let total = 0;
+    for (let key in cartItem) {
+      if (cartItem[key] > 0) {
+        let iteminfo = foodlist.find((item) => item._id === key);
+        total += iteminfo.price * cartItem[key];
+      }
+    }
+    return total;
+  }
+
   return (
     <StoreContext.Provider
-      value={{ foodlist, removeFromCart, addToCart, cartItem, setcartItem }}
+      value={{
+        foodlist,
+        removeFromCart,
+        addToCart,
+        cartItem,
+        setcartItem,
+        cartTotal,
+      }}
     >
       {children}
     </StoreContext.Provider>
