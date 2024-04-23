@@ -1,8 +1,11 @@
 import React from "react";
 import { useStore } from "../context/storeContext";
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
   const { foodlist, removeFromCart, cartItem, cartTotal } = useStore();
+
+  const navigate= useNavigate();
   return (
     <div className="mt-[100px]">
       <div className="cart-items">
@@ -65,7 +68,7 @@ const Cart = () => {
               {cartTotal() > 0 ? <b>${cartTotal() + 2}</b> : <b>0</b>}
             </div>
           </div>
-          <button className="border-none ng-[tomato] w-[max(15vs,200px)] text-white py-[12px] cursor-pointer rounded-[12px] ">
+          <button onClick={()=>{navigate('/order')}} className="border-none bg-[tomato] w-[max(15vs,200px)] text-white py-[12px] cursor-pointer rounded-[12px] ">
             Proceed to checkout
           </button>
         </div>
