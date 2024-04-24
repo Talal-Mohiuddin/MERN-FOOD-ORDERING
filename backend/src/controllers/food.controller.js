@@ -8,9 +8,17 @@ import cloudinary from "cloudinary";
 
 const addFood = catchAsyncErrors(async (req, res, next) => {
   const { name, description, price, category } = req.body;
-  const { image } = req.files;
-  if (!name || !description || !price || !category || !image) {
+
+  if (!name || !description || !price || !category) {
     return next(new ErrorHandler("Please fill all fields", 400));
+  }
+  if(!req.files || Object.keys(req.files).length === 0) {
+    return next(new ErrorHandler("Please upload an image", 400));
+  }
+  const image = req.files.image;
+
+  if (!image) {
+    return next(new ErrorHandler("Please upload an image", 400));
   }
   const foodexist = await Food.findOne({ name });
   if (foodexist) {
@@ -23,6 +31,7 @@ const addFood = catchAsyncErrors(async (req, res, next) => {
     "image/jpg",
     "image/svg",
     "image/webp",
+    "image/avif",
   ];
   if (!format.includes(image.mimetype)) {
     return next(new ErrorHandler("Invalid image format", 400));
@@ -48,6 +57,7 @@ const addFood = catchAsyncErrors(async (req, res, next) => {
   });
   res.status(201).json({
     success: true,
+    message: "Food added successfully",
     food,
   });
 });
