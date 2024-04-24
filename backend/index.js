@@ -59,6 +59,9 @@ connectDb().then(() => {
 import foodRoutes from "./src/routes/food.route.js";
 app.use("/api/food", foodRoutes);
 
+import userRoutes from "./src/routes/user.route.js"
+app.use("/api/user", userRoutes);
+
 
 
 
