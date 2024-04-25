@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { assets } from "../assets/frontend_assets/assets";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useStore } from "../context/storeContext";
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
@@ -10,6 +10,7 @@ const Navbar = ({ setshowLogin }) => {
   const [menu, setmenu] = useState("home");
   const { user, setuser } = useStore();
   const { cartTotal } = useStore();
+  const navigate = useNavigate();
 
   const mutationLogout = useMutation({
     mutationFn: async () => {
@@ -105,7 +106,10 @@ const Navbar = ({ setshowLogin }) => {
             border border-solid border-[tomato] outline-2 outline-solid outline-white min-w-[150px]
             "
             >
-              <li className="flex items-center gap-[10px] cursor-pointer hover:text-[tomato]">
+              <li
+                onClick={() => navigate("/myorders")}
+                className="flex items-center gap-[10px] cursor-pointer hover:text-[tomato]"
+              >
                 <img className="w-[20px]" src={assets.bag_icon} alt="" />
                 <p>Orders</p>
               </li>

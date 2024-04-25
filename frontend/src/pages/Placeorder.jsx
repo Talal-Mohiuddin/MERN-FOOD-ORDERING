@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useStore } from "../context/storeContext";
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const Placeorder = () => {
-  const { cartTotal, foodlist, cartItem } = useStore();
+  const { cartTotal, foodlist, cartItem, user } = useStore();
   const [data, setdata] = useState({
     name: "",
     email: "",
@@ -16,6 +17,7 @@ const Placeorder = () => {
     country: "",
     phone: "",
   });
+  const navigate = useNavigate();
 
   function handleChnage(e) {
     setdata({ ...data, [e.target.id]: e.target.value });
@@ -23,7 +25,7 @@ const Placeorder = () => {
 
   const orderMutation = useMutation({
     mutationFn: async (orderData) => {
-      const { data } =await axios.post(
+      const { data } = await axios.post(
         "http://localhost:3000/api/order/place",
         orderData,
         {
@@ -74,6 +76,13 @@ const Placeorder = () => {
     };
     orderMutation.mutate(orderData);
   }
+
+  useEffect(() => {
+    if (!user || cartTotal() === 0) {
+      navigate("/cart");
+    }
+  }, []);
+
   return (
     <form
       onSubmit={placeOrder}

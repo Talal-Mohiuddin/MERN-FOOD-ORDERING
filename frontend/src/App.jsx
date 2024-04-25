@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Navbar, Footer, Loginpop } from "./components/index";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Cart, Home, Placeorder, Verify } from "./pages/index";
+import { Cart, Home, Myorders, Placeorder, Verify } from "./pages/index";
 import { useStore } from "./context/storeContext";
 import { useEffect } from "react";
 
@@ -27,6 +27,7 @@ const App = () => {
             <Route path="/cart" element={<Cart />} />
             <Route path="/order" element={<Placeorder />} />
             <Route path='/verify' element={<Verify />} />
+            <Route path="/myorders" element={<Myorders />} />
           </Routes>
         </BrowserRouter>
       </div>
