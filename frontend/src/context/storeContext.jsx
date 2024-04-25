@@ -6,6 +6,7 @@ const StoreContext = createContext();
 const ContextProvider = ({ children }) => {
   const [foodlist, setFoodlist] = useState(food_list);
   const [cartItem, setcartItem] = useState({});
+  const [user, setuser] = useState({});
 
   function addToCart(itemId) {
     if (cartItem[itemId]) {
@@ -43,6 +44,8 @@ const ContextProvider = ({ children }) => {
         cartItem,
         setcartItem,
         cartTotal,
+        user,
+        setuser,
       }}
     >
       {children}

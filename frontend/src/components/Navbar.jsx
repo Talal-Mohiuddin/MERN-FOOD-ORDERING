@@ -5,6 +5,7 @@ import { useStore } from "../context/storeContext";
 
 const Navbar = ({ setshowLogin }) => {
   const [menu, setmenu] = useState("home");
+  const { user, setuser } = useStore();
   const { cartTotal } = useStore();
   return (
     <div className=" py-[20px] px-0 flex  justify-between items-center">
@@ -60,12 +61,34 @@ const Navbar = ({ setshowLogin }) => {
             }`}
           ></div>
         </div>
-        <button
-          onClick={() => setshowLogin((prev) => !prev)}
-          className="bg-transparent text-[14px] sm:text-[16px] text-[#49557e] border border-solid border-[tomato] py-[7px] px-[20px] sm:py-[10px] sm:px-[30px] rounded-[50px] cursor-pointer hover:bg-[#fff4f2] duration-150  "
-        >
-          Sign in
-        </button>
+        {!user ? (
+          <button
+            onClick={() => setshowLogin((prev) => !prev)}
+            className="bg-transparent text-[14px] sm:text-[16px] text-[#49557e] border border-solid border-[tomato] py-[7px] px-[20px] sm:py-[10px] sm:px-[30px] rounded-[50px] cursor-pointer hover:bg-[#fff4f2] duration-150  "
+          >
+            Sign in
+          </button>
+        ) : (
+          <div className="relative group ">
+            <img src={assets.profile_icon} alt="" />
+            <ul
+              className="absolute hidden right-0 z-10
+            group-hover:flex flex-col gap-[10px] bg-[#fff2ef] py-[12px] px-[15px] rounded-[5px] 
+            border border-solid border-[tomato] outline-2 outline-solid outline-white min-w-[150px]
+            "
+            >
+              <li className="flex items-center gap-[10px] cursor-pointer hover:text-[tomato]">
+                <img className="w-[20px]" src={assets.bag_icon} alt="" />
+                <p>Orders</p>
+              </li>
+              <hr />
+              <li className="flex items-center gap-[10px] cursor-pointer hover:text-[tomato]">
+                <img className="w-[20px]" src={assets.logout_icon} alt="" />
+                <p>Logout</p>
+              </li>
+            </ul>
+          </div>
+        )}
       </div>
     </div>
   );

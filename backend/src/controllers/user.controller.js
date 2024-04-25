@@ -1,7 +1,8 @@
-import { catchAsyncErrors } from "../middlewares/catchAysncErrors";
-import { ErrorHandler } from "../middlewares/error.middleware";
-import { User } from "../models/user.model";
-import { generateToken } from "../utils/jwtToken";
+import validator from "validator";
+import { catchAsyncErrors } from "../middlewares/catchAysncErrors.js";
+import { ErrorHandler } from "../middlewares/error.middleware.js";
+import { User } from "../models/user.model.js";
+import { generateToken } from "../utils/jwtToken.js";
 
 const registerUser = catchAsyncErrors(async (req, res, next) => {
   const { name, email, password } = req.body;
@@ -11,6 +12,9 @@ const registerUser = catchAsyncErrors(async (req, res, next) => {
   const userExist = await User.findOne({ email });
   if (userExist) {
     return next(new ErrorHandler("User already exists", 400));
+  }
+  if (!validator.isEmail(email)) {
+    return next(new ErrorHandler("Please enter a valid email", 400));
   }
   const user = await User.create({
     name,
@@ -37,4 +41,17 @@ const loginUser = catchAsyncErrors(async (req, res, next) => {
   generateToken(user, "User logged in successfully", 200, res);
 });
 
-export { registerUser, loginUser };
+const logoutUser = catchAsyncErrors(async (req, res, next) => {
+  res
+    .status(200)
+    .cookie("user", null, {
+      expires: new Date(Date.now()),
+      httpOnly: true,
+    })
+    .json({
+      success: true,
+      message: "Patient logout successfully",
+    });
+});
+
+export { registerUser, loginUser, logoutUser };

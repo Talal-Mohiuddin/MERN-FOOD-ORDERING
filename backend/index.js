@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 import fileUpload from "express-fileupload";
 import { v2 as cloudinary } from "cloudinary";
 import { errorMiddleware } from "./src/middlewares/error.middleware.js";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 
@@ -17,6 +18,7 @@ cloudinary.config({
 
 const port = process.env.PORT || 5000;
 const app = express();
+app.use(cookieParser());
 app.use(
   cors({
     origin: [process.env.FRONT_END_URL, process.env.Dashboard_URL],

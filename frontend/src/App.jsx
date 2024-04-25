@@ -2,9 +2,20 @@ import React, { useState } from "react";
 import { Navbar, Footer, Loginpop } from "./components/index";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Cart, Home, Placeorder } from "./pages/index";
+import { useStore } from "./context/storeContext";
+import { useEffect } from "react";
 
 const App = () => {
   const [showLogin, setshowLogin] = useState(false);
+  const { user, setuser } = useStore();
+
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    if (user) {
+      setuser(JSON.parse(user));
+    }
+  }, []);
+
   return (
     <>
       {showLogin && <Loginpop setshowLogin={setshowLogin} />}

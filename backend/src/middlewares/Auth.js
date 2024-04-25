@@ -18,6 +18,7 @@ const isadminAuthenticated = catchAsyncErrors(async (req, res, next) => {
 });
 
 const isUserAuthenticated = catchAsyncErrors(async (req, res, next) => {
+  
   const token = req.cookies.user;
   if (!token) {
     return next(new ErrorHandler("Login first to access this resource", 401));
