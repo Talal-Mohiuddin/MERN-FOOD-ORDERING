@@ -9,8 +9,8 @@ import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <QueryClientProvider client={new QueryClient()}>
+    <ToastContainer />
     <ContextProvider>
-      <ToastContainer />
       <App />
     </ContextProvider>
   </QueryClientProvider>

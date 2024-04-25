@@ -6,14 +6,14 @@ import { useMutation } from "@tanstack/react-query";
 import { useStore } from "../context/storeContext";
 
 const Loginpop = ({ setshowLogin }) => {
-  const [currentState, setcurrentState] = useState("Sign Up");
+  const [currentState, setcurrentState] = useState("Login");
   const [formData, setformData] = useState({
     name: "",
     email: "",
     password: "",
   });
 
-  const { setuser, user } = useStore();
+  const { setuser } = useStore();
 
   const onchangeHandler = (e) => {
     setformData({ ...formData, [e.target.id]: e.target.value });

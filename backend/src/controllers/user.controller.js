@@ -50,7 +50,7 @@ const logoutUser = catchAsyncErrors(async (req, res, next) => {
     })
     .json({
       success: true,
-      message: "Patient logout successfully",
+      message: "User logout successfully",
     });
 });
 

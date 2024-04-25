@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 const Cart = () => {
   const { foodlist, removeFromCart, cartItem, cartTotal } = useStore();
 
-  const navigate= useNavigate();
+  const navigate = useNavigate();
   return (
     <div className="mt-[100px]">
       <div className="cart-items">
@@ -22,12 +22,12 @@ const Cart = () => {
         </div>
         <br />
         <hr className="h-[1px] bg-[#e2e2e2] border-none" />
-        {foodlist.map((food, index) => {
+        {foodlist?.map((food, index) => {
           if (cartItem[food._id] > 0) {
             return (
               <>
                 <div
-                  key={index}
+                  key={food._id}
                   style={{ gridTemplateColumns: "1fr 1.5fr 1fr 1fr 1fr 0.5fr" }}
                   className="grid items-center text-[max(1vw,12px)] my-[10px] text-black "
                 >
@@ -68,7 +68,12 @@ const Cart = () => {
               {cartTotal() > 0 ? <b>${cartTotal() + 2}</b> : <b>0</b>}
             </div>
           </div>
-          <button onClick={()=>{navigate('/order')}} className="border-none bg-[tomato] w-[max(15vs,200px)] text-white py-[12px] cursor-pointer rounded-[12px] ">
+          <button
+            onClick={() => {
+              navigate("/order");
+            }}
+            className="border-none bg-[tomato] w-[max(15vs,200px)] text-white py-[12px] cursor-pointer rounded-[12px] "
+          >
             Proceed to checkout
           </button>
         </div>

@@ -2,11 +2,39 @@ import React, { useState } from "react";
 import { assets } from "../assets/frontend_assets/assets";
 import { Link } from "react-router-dom";
 import { useStore } from "../context/storeContext";
+import axios from "axios";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 
 const Navbar = ({ setshowLogin }) => {
   const [menu, setmenu] = useState("home");
   const { user, setuser } = useStore();
   const { cartTotal } = useStore();
+
+  const mutationLogout = useMutation({
+    mutationFn: async () => {
+      const { data } = await axios.get(
+        "http://localhost:3000/api/user/logout",
+        {
+          withCredentials: true,
+        }
+      );
+      return data;
+    },
+    onError: (error) => {
+      toast.error(error.response.data.message);
+    },
+    onSuccess: (data) => {
+      toast.success(data.message);
+      setuser(null);
+      localStorage.removeItem("user");
+    },
+  });
+
+  function handleLogout() {
+    mutationLogout.mutate();
+  }
+
   return (
     <div className=" py-[20px] px-0 flex  justify-between items-center">
       <Link to="/">
@@ -64,7 +92,7 @@ const Navbar = ({ setshowLogin }) => {
         {!user ? (
           <button
             onClick={() => setshowLogin((prev) => !prev)}
-            className="bg-transparent text-[14px] sm:text-[16px] text-[#49557e] border border-solid border-[tomato] py-[7px] px-[20px] sm:py-[10px] sm:px-[30px] rounded-[50px] cursor-pointer hover:bg-[#fff4f2] duration-150  "
+            className="bg-transparent text-[14px] sm:text-[16px] text-[#49557e] border border-solid border-[tomato] py-[7px] px-[20px] sm:py-[10px] sm:px-[30px] rounded-[50px] cursor-pointer hover:bg-[#fff4f2] duration-150"
           >
             Sign in
           </button>
@@ -82,7 +110,10 @@ const Navbar = ({ setshowLogin }) => {
                 <p>Orders</p>
               </li>
               <hr />
-              <li className="flex items-center gap-[10px] cursor-pointer hover:text-[tomato]">
+              <li
+                onClick={handleLogout}
+                className="flex items-center gap-[10px] cursor-pointer hover:text-[tomato]"
+              >
                 <img className="w-[20px]" src={assets.logout_icon} alt="" />
                 <p>Logout</p>
               </li>

@@ -16,6 +16,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
+
 const port = process.env.PORT || 5000;
 const app = express();
 app.use(cookieParser());
@@ -61,11 +62,14 @@ connectDb().then(() => {
 import foodRoutes from "./src/routes/food.route.js";
 app.use("/api/food", foodRoutes);
 
-import userRoutes from "./src/routes/user.route.js"
+import userRoutes from "./src/routes/user.route.js";
 app.use("/api/user", userRoutes);
 
+import cartRoutes from "./src/routes/cart.route.js";
+app.use("/api/cart", cartRoutes);
 
-
+import orderRoutes from "./src/routes/order.route.js";
+app.use("/api/order", orderRoutes);
 
 app.use(errorMiddleware);
 export default app;

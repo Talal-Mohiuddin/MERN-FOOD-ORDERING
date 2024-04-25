@@ -1,10 +1,84 @@
-import React from "react";
+import React, { useState } from "react";
 import { useStore } from "../context/storeContext";
+import axios from "axios";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 
 const Placeorder = () => {
-  const { cartTotal } = useStore();
+  const { cartTotal, foodlist, cartItem } = useStore();
+  const [data, setdata] = useState({
+    name: "",
+    email: "",
+    street: "",
+    city: "",
+    state: "",
+    zipcode: "",
+    country: "",
+    phone: "",
+  });
+
+  function handleChnage(e) {
+    setdata({ ...data, [e.target.id]: e.target.value });
+  }
+
+  const orderMutation = useMutation({
+    mutationFn: async (orderData) => {
+      const { data } =await axios.post(
+        "http://localhost:3000/api/order/place",
+        orderData,
+        {
+          withCredentials: true,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      return data;
+    },
+    onError: (error) => {
+      toast.error(error.response.data.message);
+    },
+    onSuccess: (data) => {
+      window.location.replace(data.session_url);
+    },
+  });
+
+  function placeOrder(e) {
+    e.preventDefault();
+    if (
+      !data.name ||
+      !data.email ||
+      !data.street ||
+      !data.city ||
+      !data.state ||
+      !data.zipcode ||
+      !data.country ||
+      !data.phone
+    ) {
+      toast.error("Please fill all the fields");
+    }
+    let orderItems = [];
+    foodlist.forEach((food) => {
+      if (cartItem[food._id] > 0) {
+        let itemInfo = food;
+        itemInfo["quantity"] = cartItem[food._id];
+        orderItems.push(itemInfo);
+      }
+    });
+    let orderData = {
+      address: data,
+      items: orderItems,
+      amount: cartTotal() + 2,
+    };
+    orderMutation.mutate(orderData);
+  }
   return (
-    <form className="flex items-start justify-between gap-[50px] mt-[100px]">
+    <form
+      onSubmit={placeOrder}
+      className="flex items-start justify-between gap-[50px] mt-[100px]"
+    >
       <div className="w-full max-w-[max(30%,500px)]">
         <p className="text-[30px] font-[600] mb-[50px]">
           Delievery Information
@@ -15,6 +89,8 @@ const Placeorder = () => {
             type="text"
             id="name"
             placeholder="name"
+            onChange={handleChnage}
+            value={data.name}
           />
         </div>
 
@@ -23,13 +99,17 @@ const Placeorder = () => {
           type="email"
           id="email"
           placeholder="email"
+          onChange={handleChnage}
+          value={data.email}
         />
 
         <input
           className="mb-[15px] w-full p-[10px] border border-solid border-[#c5c5c5] rounded-[4px] outline-[tomato]"
           type="text"
-          id="address"
-          placeholder="address"
+          id="street"
+          placeholder="street"
+          onChange={handleChnage}
+          value={data.street}
         />
         <div className="flex gap-[10px]">
           <input
@@ -37,6 +117,8 @@ const Placeorder = () => {
             type="text"
             id="city"
             placeholder="city"
+            onChange={handleChnage}
+            value={data.city}
           />
 
           <input
@@ -44,6 +126,8 @@ const Placeorder = () => {
             type="text"
             id="state"
             placeholder="state"
+            onChange={handleChnage}
+            value={data.state}
           />
         </div>
         <div className="flex gap-[10px]">
@@ -52,6 +136,8 @@ const Placeorder = () => {
             type="text"
             id="zipcode"
             placeholder="Zip code"
+            onChange={handleChnage}
+            value={data.zipcode}
           />
 
           <input
@@ -59,6 +145,8 @@ const Placeorder = () => {
             type="text"
             id="country"
             placeholder="country"
+            onChange={handleChnage}
+            value={data.country}
           />
         </div>
 
@@ -67,6 +155,8 @@ const Placeorder = () => {
           type="text"
           id="phone"
           placeholder="phone"
+          onChange={handleChnage}
+          value={data.phone}
         />
       </div>
       <div className="w-full max-w-[max(40%,500px)]">
@@ -88,7 +178,10 @@ const Placeorder = () => {
               {cartTotal() > 0 ? <b>${cartTotal() + 2}</b> : <b>0</b>}
             </div>
           </div>
-          <button className="border-none bg-[tomato]       w-[max(15vs,200px)] text-white py-[12px] cursor-pointer mt-[30px] rounded-[12px] ">
+          <button
+            type="submit"
+            className="border-none bg-[tomato]   w-[max(15vs,200px)] text-white py-[12px] cursor-pointer mt-[30px] rounded-[12px] "
+          >
             Proceed to Payment
           </button>
         </div>
