@@ -9,6 +9,7 @@ import { errorMiddleware } from "./src/middlewares/error.middleware.js";
 import cookieParser from "cookie-parser";
 import path from "path";
 
+
 dotenv.config();
 
 cloudinary.config({
@@ -19,10 +20,11 @@ cloudinary.config({
 
 const port = process.env.PORT || 5000;
 const app = express();
+const renderUrl = "https://mern-food-ordering.onrender.com/";
 app.use(cookieParser());
 app.use(
   cors({
-    origin: [process.env.FRONT_END_URL, process.env.Dashboard_URL],
+    origin: [process.env.FRONT_END_URL, process.env.Dashboard_URL, renderUrl],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
