@@ -73,10 +73,11 @@ app.use("/api/cart", cartRoutes);
 import orderRoutes from "./src/routes/order.route.js";
 app.use("/api/order", orderRoutes);
 
-app.use(express.static(path.join(_dirname, "/frontend/dist")));
+app.use(express.static(path.join(_dirname, "../frontend/dist")));
+app.use(express.static(path.join(_dirname, "../Dashboard/dist")));
 
 app.get("*", (req, res) =>
-  res.sendFile(path.join(_dirname, "/frontend/dist/index.html"))
+  res.sendFile(path.join(_dirname, "../frontend/dist/index.html"))
 );
 
 app.use(errorMiddleware);

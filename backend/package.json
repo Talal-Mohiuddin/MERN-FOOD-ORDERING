@@ -7,7 +7,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon index.js",
-    "build": "npm i && npm install && npm run build --prefix ../Dashboard && npm install && npm run build --prefix ../frontend "
+    "buildFrontend":  "npm install --prefix ../frontend && npm run build --prefix ../frontend",
+    "buildDashboard": "npm install --prefix ../Dashboard && npm run build --prefix ../Dashboard",
+    "build": "npm i && npm run buildFrontend && npm run buildDashboard"
   },
   "keywords": [],
   "author": "",

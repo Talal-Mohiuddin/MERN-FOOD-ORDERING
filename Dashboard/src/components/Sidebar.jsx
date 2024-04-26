@@ -27,7 +27,7 @@ const Sidebar = () => {
       toast.success(data.message);
       localStorage.removeItem("admin");
       setuser(null);
-      navigate("/");
+      navigate("/dashboard");
     },
   });
 

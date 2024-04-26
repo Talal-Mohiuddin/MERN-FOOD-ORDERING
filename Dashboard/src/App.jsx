@@ -17,15 +17,15 @@ const App = () => {
 
   return (
     <div>
-      {user&& <Navbar />}
+      {user && <Navbar />}
       <hr />
       <div className="flex">
         {user && <Sidebar />}
         <Routes>
           {!user ? (
             <>
-            <Route index path="/" element={<Login />} />
-            <Route path="*" element={<Login />} />
+              <Route index path="/dashboard" element={<Login />} />
+              <Route path="*" element={<Login />} />
             </>
           ) : (
             <>
