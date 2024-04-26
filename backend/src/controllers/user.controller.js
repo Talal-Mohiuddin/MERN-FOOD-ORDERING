@@ -37,6 +37,9 @@ const loginUser = catchAsyncErrors(async (req, res, next) => {
   if (!isPasswordMatched) {
     return next(new ErrorHandler("Invalid email or password", 401));
   }
+  if (user.role === "admin") {
+    return next(new ErrorHandler("You can not lgoin with an admin email", 401));
+  }
 
   generateToken(user, "User logged in successfully", 200, res);
 });
