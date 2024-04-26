@@ -2,7 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { toast } from "react-toastify";
-
+import { URL } from "../URL";
 const StoreContext = createContext();
 
 const ContextProvider = ({ children }) => {
@@ -13,12 +13,9 @@ const ContextProvider = ({ children }) => {
   const { data } = useQuery({
     queryKey: ["foodlist"],
     queryFn: async () => {
-      const { data } = await axios.get(
-        "http://localhost:3000/api/food/listfood",
-        {
-          withCredentials: true,
-        }
-      );
+      const { data } = await axios.get(`${URL}/api/food/listfood`, {
+        withCredentials: true,
+      });
       setFoodlist(data.foods);
       return data;
     },
@@ -33,7 +30,7 @@ const ContextProvider = ({ children }) => {
     if (user) {
       await axios
         .post(
-          "http://localhost:3000/api/cart/addtocart",
+          `${URL}/api/cart/addtocart`,
           {
             itemId: itemId,
           },
@@ -64,7 +61,7 @@ const ContextProvider = ({ children }) => {
     if (user) {
       await axios
         .post(
-          "http://localhost:3000/api/cart/removefromcart",
+          `${URL}/api/cart/removefromcart`,
           {
             itemId: itemId,
           },
@@ -89,12 +86,9 @@ const ContextProvider = ({ children }) => {
   const getcart = useQuery({
     queryKey: ["cart"],
     queryFn: async () => {
-      const { data } = await axios.get(
-        "http://localhost:3000/api/cart/getcart",
-        {
-          withCredentials: true,
-        }
-      );
+      const { data } = await axios.get(`${URL}/api/cart/getcart`, {
+        withCredentials: true,
+      });
       setcartItem(data.cartData);
       return data;
     },
