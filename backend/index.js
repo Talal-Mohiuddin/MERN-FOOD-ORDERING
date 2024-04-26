@@ -7,6 +7,7 @@ import fileUpload from "express-fileupload";
 import { v2 as cloudinary } from "cloudinary";
 import { errorMiddleware } from "./src/middlewares/error.middleware.js";
 import cookieParser from "cookie-parser";
+import path from "path";
 
 dotenv.config();
 
@@ -15,7 +16,6 @@ cloudinary.config({
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
-
 
 const port = process.env.PORT || 5000;
 const app = express();
@@ -59,6 +59,8 @@ connectDb().then(() => {
   });
 });
 
+const _dirname = path.resolve();
+
 import foodRoutes from "./src/routes/food.route.js";
 app.use("/api/food", foodRoutes);
 
@@ -70,6 +72,12 @@ app.use("/api/cart", cartRoutes);
 
 import orderRoutes from "./src/routes/order.route.js";
 app.use("/api/order", orderRoutes);
+
+app.use(express.static(path.join(_dirname, "/frontend/dist")));
+
+app.get("*", (req, res) =>
+  res.sendFile(path.join(_dirname, "/frontend/dist/index.html"))
+);
 
 app.use(errorMiddleware);
 export default app;
