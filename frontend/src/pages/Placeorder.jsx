@@ -4,6 +4,7 @@ import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { URL } from "../URL";
 
 const Placeorder = () => {
   const { cartTotal, foodlist, cartItem, user } = useStore();
@@ -26,7 +27,7 @@ const Placeorder = () => {
   const orderMutation = useMutation({
     mutationFn: async (orderData) => {
       const { data } = await axios.post(
-        "http://localhost:3000/api/order/place",
+        `${URL}/api/order/place`,
         orderData,
         {
           withCredentials: true,

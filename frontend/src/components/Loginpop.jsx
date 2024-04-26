@@ -4,6 +4,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useMutation } from "@tanstack/react-query";
 import { useStore } from "../context/storeContext";
+import { URL } from "../URL";
 
 const Loginpop = ({ setshowLogin }) => {
   const [currentState, setcurrentState] = useState("Login");
@@ -22,7 +23,7 @@ const Loginpop = ({ setshowLogin }) => {
   const mutationRegister = useMutation({
     mutationFn: async (form) => {
       const { data } = await axios.post(
-        "http://localhost:3000/api/user/register",
+        `${URL}/api/user/register`,
         form,
         {
           withCredentials: true,
@@ -50,7 +51,7 @@ const Loginpop = ({ setshowLogin }) => {
   const mutationLogin = useMutation({
     mutationFn: async (form) => {
       const { data } = await axios.post(
-        "http://localhost:3000/api/user/login",
+        `${URL}/api/user/login`,
         form,
         {
           withCredentials: true,

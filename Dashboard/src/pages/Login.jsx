@@ -4,6 +4,7 @@ import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useStore } from "../context/storeContext";
+import { URL } from "../URL";
 
 const Login = () => {
   const [formdata, setformdata] = useState({
@@ -21,7 +22,7 @@ const Login = () => {
   const loginMutation = useMutation({
     mutationFn: async () => {
       const { data } = await axios.post(
-        "http://localhost:3000/api/user/admin-login",
+        `${URL}/api/user/admin-login`,
         formdata,
         { withCredentials: true },
         {

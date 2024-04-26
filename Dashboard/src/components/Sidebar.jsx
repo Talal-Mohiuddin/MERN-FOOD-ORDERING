@@ -5,6 +5,7 @@ import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { useStore } from "../context/storeContext";
+import { URL } from "../URL";
 
 const Sidebar = () => {
   const [active, setactive] = useState();
@@ -14,7 +15,7 @@ const Sidebar = () => {
   const logoutMutation = useMutation({
     mutationFn: async () => {
       const {data} = await axios.get(
-        "http://localhost:3000/api/user/admin-logout",
+        `${URL}/api/user/admin-logout`,
         { withCredentials: true }
       );
 

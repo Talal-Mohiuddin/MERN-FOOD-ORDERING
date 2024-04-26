@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { assets } from "../assets/frontend_assets/assets";
+import { URL } from "../URL";
 
 const Myorders = () => {
   const [data, setdata] = useState([]);
@@ -10,7 +11,7 @@ const Myorders = () => {
     queryKey: ["myorders"],
     queryFn: async () => {
       const { data } = await axios.get(
-        "http://localhost:3000/api/order/userorders",
+        `${URL}/api/order/userorders`,
         {
           withCredentials: true,
         }

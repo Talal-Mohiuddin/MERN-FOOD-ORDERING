@@ -4,6 +4,7 @@ import { Spinner } from "../components";
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
+import { URL } from "../URL";
 
 const Verify = () => {
   const [search, setSearch] = useSearchParams();
@@ -14,7 +15,7 @@ const Verify = () => {
   const mutation = useMutation({
     mutationFn: async () => {
       const { data } = await axios.post(
-        "http://localhost:3000/api/order/verify",
+        `${URL}/api/order/verify`,
         {
           success,
           orderId,

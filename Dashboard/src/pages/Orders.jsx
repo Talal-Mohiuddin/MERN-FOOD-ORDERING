@@ -3,6 +3,7 @@ import axios from "axios";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { assets } from "../assets/admin_assets/assets";
+import { URL } from "../URL";
 const Orders = () => {
   const [orders, setorders] = useState([]);
   const [status, setstatus] = useState("Food Processing");
@@ -10,10 +11,9 @@ const Orders = () => {
   const query = useQuery({
     queryKey: ["orders"],
     queryFn: async () => {
-      const { data } = await axios.get(
-        "http://localhost:3000/api/order/getOrders",
-        { withCredentials: true }
-      );
+      const { data } = await axios.get(`${URL}/api/order/getOrders`, {
+        withCredentials: true,
+      });
       setorders(data.orders);
       return data;
     },
@@ -24,7 +24,7 @@ const Orders = () => {
   const statusMutation = useMutation({
     mutationFn: async (orderId) => {
       const { data } = await axios.post(
-        "http://localhost:3000/api/order/updatestatus",
+        `${URL}/api/order/updatestatus`,
         { orderId, status },
         { withCredentials: true },
         { headers: { "Content-Type": "application/json" } }

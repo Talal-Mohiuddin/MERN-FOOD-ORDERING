@@ -3,6 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { assets } from "../assets/admin_assets/assets";
 import { toast } from "react-toastify";
+import { URL } from "../URL";
 
 const Addproduct = () => {
   const [image, setimage] = useState(null);
@@ -33,7 +34,7 @@ const Addproduct = () => {
   const mutate = useMutation({
     mutationFn: async (form) => {
       const { data } = await axios.post(
-        "http://localhost:3000/api/food/addfood",
+        `${URL}/api/food/addfood`,
         form,
         {
           withCredentials: true,

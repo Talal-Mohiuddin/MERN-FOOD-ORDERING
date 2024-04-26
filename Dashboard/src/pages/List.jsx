@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
+import { URL } from "../URL";
 
 const List = () => {
   const [list, setlist] = useState([]);
@@ -10,7 +11,7 @@ const List = () => {
     queryKey: ["list"],
     queryFn: async () => {
       const { data } = await axios.get(
-        "http://localhost:3000/api/food/listfood",
+        `${URL}/api/food/listfood`,
         { withCredentials: true }
       );
       setlist(data.foods);
@@ -21,10 +22,9 @@ const List = () => {
 
   const mutationDelete = useMutation({
     mutationFn: async (id) => {
-      const { data } = await axios.delete(
-        `http://localhost:3000/api/food/removeFood/${id}`,
-        { withCredentials: true }
-      );
+      const { data } = await axios.delete(`${URL}/api/food/removeFood/${id}`, {
+        withCredentials: true,
+      });
       return data;
     },
     onSuccess: (data) => {
