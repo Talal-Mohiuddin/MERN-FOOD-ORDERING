@@ -78,6 +78,10 @@ app.use("/api/order", orderRoutes);
 app.use(express.static(path.join(_dirname, "../frontend/dist")));
 app.use(express.static(path.join(_dirname, "../Dashboard/dist")));
 
+app.get("/dashboard/*", (req, res) =>
+  res.sendFile(path.join(_dirname, "../Dashboard/dist/index.html"))
+);
+
 app.get("*", (req, res) =>
   res.sendFile(path.join(_dirname, "../frontend/dist/index.html"))
 );

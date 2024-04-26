@@ -25,7 +25,7 @@ const App = () => {
           {!user ? (
             <>
               <Route index path="/dashboard" element={<Login />} />
-              <Route path="*" element={<Login />} />
+              
             </>
           ) : (
             <>
