@@ -43,7 +43,7 @@ const Myorders = () => {
             <p>Items:{order.items.length}</p>
             <p>
               <span className="text-[tomato]">&#x25cf;</span>
-              <b className="font-[500] text-[#454545]">Food Processing</b>
+              <b className="font-[500] text-[#454545]">{order.status}</b>
             </p>
             <button className="border-none py-[12px] rounded-[4px] bg-[#ffe1e1] cursor-pointer text-[#454545] text-[10px] sm:text-[14px] ">
               Track Order

@@ -6,12 +6,15 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { BrowserRouter } from "react-router-dom";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import { ContextProvider } from "./context/storeContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <QueryClientProvider client={new QueryClient()}>
-    <BrowserRouter>
-      <ToastContainer />
-      <App />
-    </BrowserRouter>
+    <ContextProvider>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </ContextProvider>
+    <ToastContainer />
   </QueryClientProvider>
 );

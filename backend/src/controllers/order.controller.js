@@ -90,4 +90,33 @@ const userOrders = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-export { placeOrder, VerifyOrder, userOrders};
+const getOrders = catchAsyncErrors(async (req, res, next) => {
+  const orders = await Order.find();
+  if (!orders) {
+    return next(new ErrorHandler("No orders found", 404));
+  }
+  res.status(200).json({
+    success: true,
+    orders,
+  });
+});
+
+const updateStatus = catchAsyncErrors(async (req, res, next) => {
+  const { orderId, status } = req.body;
+  const order = await Order.findById(orderId);
+  if (!order) {
+    return next(new ErrorHandler("Order not found", 404));
+  }
+  const updated = await Order.findByIdAndUpdate(orderId, { status });
+
+  if (!updated) {
+    return next(new ErrorHandler("Failed to update status", 500));
+  }
+
+  res.status(200).json({
+    success: true,
+    message: "Status updated",
+  });
+});
+
+export { placeOrder, VerifyOrder, userOrders, getOrders, updateStatus };

@@ -54,4 +54,36 @@ const logoutUser = catchAsyncErrors(async (req, res, next) => {
     });
 });
 
-export { registerUser, loginUser, logoutUser };
+const loginAdmin = catchAsyncErrors(async (req, res, next) => {
+  const { email, password } = req.body;
+  if (!email || !password) {
+    return next(new ErrorHandler("Please enter email and password", 400));
+  }
+  const user = await User.findOne({ email }).select("+password");
+  if (user && user.role !== "admin") {
+    return next(new ErrorHandler("Only admin can access this route", 401));
+  }
+  if (!user) {
+    return next(new ErrorHandler("Invalid email or password", 401));
+  }
+  const isPasswordMatched = await user.comparePassword(password);
+  if (!isPasswordMatched) {
+    return next(new ErrorHandler("Invalid email or password", 401));
+  }
+  generateToken(user, "Admin logged in successfully", 200, res);
+});
+
+const logoutAdmin = catchAsyncErrors(async (req, res, next) => {
+  res
+    .status(200)
+    .cookie("admin", null, {
+      expires: new Date(Date.now()),
+      httpOnly: true,
+    })
+    .json({
+      success: true,
+      message: "Admin logout successfully",
+    });
+});
+
+export { registerUser, loginUser, logoutUser, loginAdmin, logoutAdmin };
